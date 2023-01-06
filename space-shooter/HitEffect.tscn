@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Music/Hit.wav" type="AudioStream" id=1]
+
+[sub_resource type="ParticlesMaterial" id=1]
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 50.0
+initial_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 1.5
+
+[sub_resource type="Animation" id=4]
+resource_name = "Hit"
+length = 0.03
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Hits"
+length = 0.3
+tracks/0/type = "method"
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"values": [  ]
+}
+
+[node name="HitEffect" type="Node2D"]
+
+[node name="HitAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -13.984
+autoplay = true
+
+[node name="HitParticles" type="Particles2D" parent="."]
+amount = 6
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../HitParticles")
+autoplay = "Hit"
+anims/Hit = SubResource( 4 )
+anims/Hits = SubResource( 5 )
